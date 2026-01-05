@@ -8,17 +8,24 @@
     <link rel="shortcut icon" type="image/png" href="Logosmall.png">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
     <style>
         * { 
             font-family: 'Inter', sans-serif;
+            cursor: url('Logosmall.png'), auto;
         }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; font-weight: 700; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
         
         /* Custom cursor for dark mode */
         .dark * {
-            cursor: default;
+            cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNkYzI2MjYiLz4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTEyIDlWMTVMMTUgMTJMMTIgOVoiIGZpbGw9IiNkYzI2MjYiLz4KPC9zdmc+'), auto;
         }
         
         /* Loader */
@@ -239,8 +246,49 @@
             .mobile-mb-6 { margin-bottom: 1.5rem; }
             .mobile-mb-8 { margin-bottom: 2rem; }
             
-            /* Review Section Styles */
-        .review-section {
+        /* Product Selection Styles */
+        .product-main-image {
+            transition: all 0.4s ease;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .variant-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .variant-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .variant-circle.active {
+            border-color: #dc2626;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+        }
+        
+        .variant-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .fade-in-image {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .fade-in-image.loaded {
+            opacity: 1;
+        }on {
             background: #f8f9fa;
             padding: 1rem;
             border-radius: 10px;
@@ -1131,51 +1179,56 @@
     <!-- Cards Selection Section -->
     <section id="cards" class="py-16 lg:py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Product Hero Section -->
-            <div class="grid lg:grid-cols-2 gap-12 items-start mb-16">
-                <!-- Product Image -->
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <!-- Product Image Section -->
                 <div class="relative">
-                    <div class="bg-white rounded-2xl p-8 shadow-lg">
-                        <img id="productImage" src="2.png" alt="Ekam Care Emergency Card" class="product-image w-full max-w-md mx-auto fade-transition loaded">
+                    <div class="bg-white rounded-3xl p-8 shadow-xl">
+                        <img id="mainProductImage" src="2.png" alt="Amazon Red Emergency Card" class="product-main-image w-full max-w-lg mx-auto fade-in-image loaded">
                     </div>
                 </div>
                 
-                <!-- Product Details -->
-                <div class="space-y-6">
+                <!-- Product Details Section -->
+                <div class="space-y-8">
                     <div>
-                        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Ekam Care – Minimal Range</h1>
+                        <p class="text-sm text-gray-500 uppercase tracking-wider mb-2">EKAM CARE EMERGENCY CARDS</p>
+                        <h1 id="productTitle" class="text-4xl font-bold text-gray-900 mb-4">Amazon Red Card</h1>
                         <p class="text-lg text-gray-600">Emergency Identification Card</p>
                     </div>
                     
-                    <div class="text-3xl font-bold text-green-600">₹299</div>
+                    <div class="text-4xl font-bold text-green-600">₹299</div>
                     
-                    <div class="space-y-3">
+                    <div class="space-y-4">
+                        <p class="text-gray-700 font-medium">Color</p>
+                        <div class="flex flex-wrap gap-4" id="variantCircles">
+                            <!-- Variant circles will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
                         <div class="flex items-center gap-3">
-                            <i class="fas fa-qrcode text-red-600"></i>
+                            <i class="fas fa-qrcode text-red-600 text-lg"></i>
                             <span class="text-gray-700">QR-based emergency access</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <i class="fas fa-location-dot text-red-600"></i>
+                            <i class="fas fa-location-dot text-red-600 text-lg"></i>
                             <span class="text-gray-700">Instant contact & live location sharing</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <i class="fas fa-shield-check text-red-600"></i>
+                            <i class="fas fa-shield-check text-red-600 text-lg"></i>
                             <span class="text-gray-700">Waterproof & wallet-friendly</span>
                         </div>
                     </div>
                     
-                    <!-- Color Variant Selector -->
                     <div class="space-y-4">
-                        <h3 class="text-lg font-semibold text-gray-900">Choose Color</h3>
-                        <div class="flex flex-wrap gap-3" id="colorSwatches">
-                            <!-- Color swatches will be populated by JavaScript -->
-                        </div>
+                        <button onclick="openProductModal()" class="w-full bg-red-600 text-white py-4 px-8 rounded-xl font-semibold hover:bg-red-700 transition text-lg flex items-center justify-center gap-2">
+                            <i class="fas fa-bookmark"></i>
+                            Reserve Your Card
+                        </button>
+                        <button class="w-full border-2 border-gray-300 text-gray-700 py-4 px-8 rounded-xl font-semibold hover:border-red-600 hover:text-red-600 transition text-lg">
+                            <i class="fas fa-share-alt mr-2"></i>
+                            Share
+                        </button>
                     </div>
-                    
-                    <button onclick="openCustomizationModal()" class="w-full bg-red-600 text-white py-4 px-8 rounded-xl font-semibold hover:bg-red-700 transition flex items-center justify-center gap-2 text-lg">
-                        <i class="fas fa-bookmark"></i>
-                        Reserve Your Card Now!
-                    </button>
                 </div>
             </div>
         </div>
@@ -1668,14 +1721,14 @@
         
         counters.forEach(counter => counterObserver.observe(counter));
         
-        // Initialize product page
-        initializeProductPage();
+        // Initialize product variants
+        initializeProductVariants();
         
         // Loader
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-            }, 300);
+            }, 800);
         });
 
         // Mobile Menu
@@ -1854,56 +1907,62 @@
             document.getElementById('cardCustomizationForm').reset();
         }
         
-        // Product page functionality
-        const cardVariants = [
-            { name: 'Amazon Red', color: '#dc2626', image: '2.png', id: 'amazon-red' },
-            { name: 'Star Black', color: '#1f2937', image: '7.png', id: 'star-black' },
-            { name: 'Slim Blue', color: '#2563eb', image: '22.png', id: 'slim-blue' },
-            { name: 'Aqua Blue', color: '#06b6d4', image: '1.png', id: 'aqua-blue' },
-            { name: 'Blossom Pink', color: '#ec4899', image: '5.png', id: 'blossom-pink' },
-            { name: 'Steel Silver', color: '#6b7280', image: '66.png', id: 'steel-silver' },
-            { name: 'Universal Light', color: '#f3f4f6', image: '44.png', id: 'universal-light' },
-            { name: 'Spicy Purple', color: '#7c3aed', image: '33.png', id: 'spicy-purple' },
-            { name: 'Deep Orange', color: '#ea580c', image: '55.png', id: 'deep-orange' }
+        // Product variants data
+        const productVariants = [
+            { id: 'amazon-red', name: 'Amazon Red Card', mainImage: '2.png', thumbImage: '23.png' },
+            { id: 'blossom-pink', name: 'Blossom Pink Card', mainImage: '5.png', thumbImage: '24.png' },
+            { id: 'star-black', name: 'Star Black Card', mainImage: '7.png', thumbImage: '25.png' },
+            { id: 'slim-blue', name: 'Slim Blue Card', mainImage: '22.png', thumbImage: '26.png' },
+            { id: 'spicy-purple', name: 'Spicy Purple Card', mainImage: '33.png', thumbImage: '27.png' },
+            { id: 'deep-mango', name: 'Deep Mango Card', mainImage: '55.png', thumbImage: '28.png' },
+            { id: 'aqua-blue', name: 'Aqua Blue Card', mainImage: '1.png', thumbImage: '30.png' },
+            { id: 'universal-light', name: 'Universal Light Card', mainImage: '44.png', thumbImage: '31.png' }
         ];
         
-        let selectedVariant = cardVariants[0];
+        let currentVariant = productVariants[0];
         
-        function initializeProductPage() {
-            const swatchContainer = document.getElementById('colorSwatches');
-            if (!swatchContainer) return;
+        function initializeProductVariants() {
+            const container = document.getElementById('variantCircles');
+            if (!container) return;
             
-            cardVariants.forEach((variant, index) => {
-                const swatch = document.createElement('div');
-                swatch.className = `color-swatch ${index === 0 ? 'active' : ''}`;
-                swatch.style.backgroundColor = variant.color;
-                swatch.title = variant.name;
-                swatch.onclick = () => selectVariant(variant, swatch);
-                swatchContainer.appendChild(swatch);
+            productVariants.forEach((variant, index) => {
+                const circle = document.createElement('div');
+                circle.className = `variant-circle ${index === 0 ? 'active' : ''}`;
+                circle.onclick = () => selectVariant(variant, circle);
+                
+                const img = document.createElement('img');
+                img.src = variant.thumbImage;
+                img.alt = variant.name;
+                
+                circle.appendChild(img);
+                container.appendChild(circle);
             });
         }
         
-        function selectVariant(variant, swatchElement) {
-            selectedVariant = variant;
+        function selectVariant(variant, circleElement) {
+            currentVariant = variant;
             
-            // Update active swatch
-            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-            swatchElement.classList.add('active');
+            // Update active circle
+            document.querySelectorAll('.variant-circle').forEach(c => c.classList.remove('active'));
+            circleElement.classList.add('active');
             
-            // Update product image with fade effect
-            const productImage = document.getElementById('productImage');
-            productImage.classList.remove('loaded');
+            // Update main image with fade effect
+            const mainImage = document.getElementById('mainProductImage');
+            const title = document.getElementById('productTitle');
+            
+            mainImage.classList.remove('loaded');
             
             setTimeout(() => {
-                productImage.src = variant.image;
-                productImage.alt = variant.name + ' Emergency Card';
-                productImage.classList.add('loaded');
-            }, 150);
+                mainImage.src = variant.mainImage;
+                mainImage.alt = variant.name;
+                title.textContent = variant.name;
+                mainImage.classList.add('loaded');
+            }, 200);
         }
         
-        function openCustomizationModal() {
-            document.getElementById('selectedCard').value = selectedVariant.id;
-            document.getElementById('selectedCardName').textContent = selectedVariant.name;
+        function openProductModal() {
+            document.getElementById('selectedCard').value = currentVariant.id;
+            document.getElementById('selectedCardName').textContent = currentVariant.name;
             document.getElementById('customizationModal').classList.remove('hidden');
         }
 
