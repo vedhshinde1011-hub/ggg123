@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Card | Ekam Care Emergency Cards</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .glossy-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy-shine::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            transform: translateX(-100%) translateY(-100%);
+            transition: transform 0.6s ease;
+        }
+        .glossy-shine:hover::before {
+            transform: translateX(0) translateY(0);
+        }
+        
+        .review-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stars { color: #ffc107; margin-right: 0.5rem; }
+        .review-count { color: #666; font-size: 0.9rem; }
+        .add-review-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .add-review-btn:hover { background: #218838; }
+        
+        /* Review Modal */
+        .review-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 2rem 0;
+        }
+        
+        .rating-star {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .rating-star:hover,
+        .rating-star.active {
+            color: #ffc107;
+        }
+        
+        @media (max-width: 640px) {
+            .modal-content {
+                margin: 20% auto;
+                padding: 1.5rem;
+            }
+            .rating-star {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="w-full bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center justify-between py-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <img src="Logosmall.png" alt="Ekam Care Logo" class="h-10 w-auto rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center shadow-lg" style="display:none;">
+                        <i class="fas fa-heart-pulse text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900 ml-2">Ekam<span class="text-red-600">Care</span></span>
+                </a>
+                <ul class="hidden lg:flex items-center gap-8">
+                    <li><a href="index.html" class="text-gray-700 hover:text-red-600 transition">Home</a></li>
+                    <li><a href="index.html#about" class="text-gray-700 hover:text-red-600 transition">About</a></li>
+                    <li><a href="index.html#how-it-works" class="text-gray-700 hover:text-red-600 transition">How It Works</a></li>
+                    <li><a href="cards.html" class="text-red-600 font-medium">Choose Card</a></li>
+                    <li><a href="index.html#pricing" class="text-gray-700 hover:text-red-600 transition">Pricing</a></li>
+                    <li><a href="index.html#contact" class="text-gray-700 hover:text-red-600 transition">Contact</a></li>
+                </ul>
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="cards.html" class="bg-red-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-red-700 transition flex items-center gap-2 shadow-lg">
+                        <i class="fas fa-qrcode"></i> Get Your Card
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="py-12 bg-gradient-to-br from-red-50 to-orange-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Choose Your Ekam Care Card</h1>
+            <p class="text-xl text-gray-600 mb-6">All cards are priced at ₹299 each. Select your preferred design and customize your emergency information.</p>
+            <div class="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                <i class="fas fa-shield-check"></i>
+                <span class="font-medium">All Cards Include Free First Year Support</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blossom Pink Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="5.png" alt="Blossom Pink Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Blossom Pink Card</h3>
+                        <p class="text-gray-600 mb-4">Elegant pink design perfect for a sophisticated look</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('blossom-pink', 'Blossom Pink Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.7</span>
+                                </div>
+                                <div class="review-count">(32 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Blossom Pink Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Star Black Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="7.png" alt="Star Black Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Star Black Card</h3>
+                        <p class="text-gray-600 mb-4">Premium black design with professional appeal</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('star-black', 'Star Black Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">5.0</span>
+                                </div>
+                                <div class="review-count">(28 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Star Black Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amazon Red Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="2.png" alt="Amazon Red Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Amazon Red Card</h3>
+                        <p class="text-gray-600 mb-4">Bold red design that stands out in emergencies</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('amazon-red', 'Amazon Red Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">5.0</span>
+                                </div>
+                                <div class="review-count">(35 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Amazon Red Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aqua Blue Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="1.png" alt="Aqua Blue Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Aqua Blue Card</h3>
+                        <p class="text-gray-600 mb-4">Calming blue design with modern aesthetics</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('aqua-blue', 'Aqua Blue Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.6</span>
+                                </div>
+                                <div class="review-count">(23 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Aqua Blue Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slim Blue Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="22.png" alt="Slim Blue Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Slim Blue Card</h3>
+                        <p class="text-gray-600 mb-4">Sleek blue design with minimalist appeal</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('slim-blue', 'Slim Blue Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">5.0</span>
+                                </div>
+                                <div class="review-count">(29 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Slim Blue Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spicy Purple Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="33.png" alt="Spicy Purple Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Spicy Purple Card</h3>
+                        <p class="text-gray-600 mb-4">Vibrant purple design with unique character</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('spicy-purple', 'Spicy Purple Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.8</span>
+                                </div>
+                                <div class="review-count">(41 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Spicy Purple Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Universal Light Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="44.png" alt="Universal Light Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Universal Light Card</h3>
+                        <p class="text-gray-600 mb-4">Clean light design suitable for everyone</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('universal-light', 'Universal Light Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.9</span>
+                                </div>
+                                <div class="review-count">(37 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Universal Light Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deep Mango Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="55.png" alt="Deep Mango Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Deep Mango Card</h3>
+                        <p class="text-gray-600 mb-4">Warm mango design with tropical vibes</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('deep-mango', 'Deep Mango Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.7</span>
+                                </div>
+                                <div class="review-count">(26 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Deep Mango Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Steel Silver Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="66.png" alt="Steel Silver Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Steel Silver Card</h3>
+                        <p class="text-gray-600 mb-4">Metallic silver design with premium finish</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('steel-silver', 'Steel Silver Card')">
+                            Select This Card
+                        </button>
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.8</span>
+                                </div>
+                                <div class="review-count">(43 reviews)</div>
+                            </div>
+                            <button class="add-review-btn" onclick="openReviewModal('Steel Silver Card')">
+                                <i class="fas fa-plus"></i> Add Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="review-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+            <h2 class="text-2xl font-bold text-center mb-4">Rate <span id="cardName"></span></h2>
+            
+            <div class="rating-stars">
+                <i class="fas fa-star rating-star" data-rating="1"></i>
+                <i class="fas fa-star rating-star" data-rating="2"></i>
+                <i class="fas fa-star rating-star" data-rating="3"></i>
+                <i class="fas fa-star rating-star" data-rating="4"></i>
+                <i class="fas fa-star rating-star" data-rating="5"></i>
+            </div>
+            
+            <textarea id="reviewText" placeholder="Write your review..." class="w-full p-3 border rounded-lg mb-4" rows="4"></textarea>
+            
+            <div class="flex gap-3">
+                <button onclick="closeReviewModal()" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Cancel</button>
+                <button onclick="submitReview()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg">Submit Review</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = 0;
+        
+        function selectCard(cardType, cardName) {
+            alert('Card selection functionality - redirect to customization form');
+        }
+        
+        function openReviewModal(cardName) {
+            document.getElementById('cardName').textContent = cardName;
+            document.getElementById('reviewModal').style.display = 'block';
+        }
+        
+        function closeReviewModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+            selectedRating = 0;
+            document.getElementById('reviewText').value = '';
+            document.querySelectorAll('.rating-star').forEach(star => star.classList.remove('active'));
+        }
+        
+        // Star rating functionality
+        document.querySelectorAll('.rating-star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                document.querySelectorAll('.rating-star').forEach((s, index) => {
+                    if (index < selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        function submitReview() {
+            const reviewText = document.getElementById('reviewText').value.trim();
+            
+            if (selectedRating === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Rating Required',
+                    text: 'Please select a star rating.',
+                    confirmButtonColor: '#dc2626'
+                });
+                return;
+            }
+            
+            if (!reviewText) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Review Required',
+                    text: 'Please write a review.',
+                    confirmButtonColor: '#dc2626'
+                });
+                return;
+            }
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Review Submitted!',
+                text: 'Thank you for your review. It will be displayed after moderation.',
+                confirmButtonColor: '#28a745'
+            }).then(() => {
+                closeReviewModal();
+            });
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reviewModal');
+            if (event.target === modal) {
+                closeReviewModal();
+            }
+        }
+    </script>
+</body>
+</html>

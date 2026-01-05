@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Card | Ekam Care Emergency Cards</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        /* Glossy shine effect */
+        .glossy-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy-shine::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            transform: translateX(-100%) translateY(-100%);
+            transition: transform 0.6s ease;
+        }
+        .glossy-shine:hover::before {
+            transform: translateX(0) translateY(0);
+        }
+        
+        /* Review Section Styles */
+        .review-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stars {
+            color: #ffc107;
+            margin-right: 0.5rem;
+        }
+        
+        .review-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="w-full bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center justify-between py-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <img src="Logosmall.png" alt="Ekam Care Logo" class="h-10 w-auto rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center shadow-lg" style="display:none;">
+                        <i class="fas fa-heart-pulse text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900 ml-2">Ekam<span class="text-red-600">Care</span></span>
+                </a>
+                <ul class="hidden lg:flex items-center gap-8">
+                    <li><a href="index.html" class="text-gray-700 hover:text-red-600 transition">Home</a></li>
+                    <li><a href="index.html#about" class="text-gray-700 hover:text-red-600 transition">About</a></li>
+                    <li><a href="index.html#how-it-works" class="text-gray-700 hover:text-red-600 transition">How It Works</a></li>
+                    <li><a href="cards.html" class="text-red-600 font-medium">Choose Card</a></li>
+                    <li><a href="index.html#pricing" class="text-gray-700 hover:text-red-600 transition">Pricing</a></li>
+                    <li><a href="index.html#contact" class="text-gray-700 hover:text-red-600 transition">Contact</a></li>
+                </ul>
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="cards.html" class="bg-red-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-red-700 transition flex items-center gap-2 shadow-lg">
+                        <i class="fas fa-qrcode"></i> Get Your Card
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <nav class="flex items-center gap-2 text-sm">
+                <a href="index.html" class="text-gray-500 hover:text-red-600">Home</a>
+                <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                <span class="text-gray-900 font-medium">Choose Card</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="py-12 bg-gradient-to-br from-red-50 to-orange-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Choose Your Ekam Care Card</h1>
+            <p class="text-xl text-gray-600 mb-6">All cards are priced at ₹299 each. Select your preferred design and customize your emergency information.</p>
+            <div class="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                <i class="fas fa-shield-check"></i>
+                <span class="font-medium">All Cards Include Free First Year Support</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blossom Pink Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="5.png" alt="Blossom Pink Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Blossom Pink Card</h3>
+                        <p class="text-gray-600 mb-4">Elegant pink design perfect for a sophisticated look</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('blossom-pink', 'Blossom Pink Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.9</span>
+                                </div>
+                                <div class="review-count">(47 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Star Black Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="7.png" alt="Star Black Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Star Black Card</h3>
+                        <p class="text-gray-600 mb-4">Premium black design with professional appeal</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('star-black', 'Star Black Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">5.0</span>
+                                </div>
+                                <div class="review-count">(52 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amazon Red Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="2.png" alt="Amazon Red Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Amazon Red Card</h3>
+                        <p class="text-gray-600 mb-4">Bold red design that stands out in emergencies</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('amazon-red', 'Amazon Red Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.8</span>
+                                </div>
+                                <div class="review-count">(39 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aqua Blue Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="1.png" alt="Aqua Blue Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Aqua Blue Card</h3>
+                        <p class="text-gray-600 mb-4">Calming blue design with modern aesthetics</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('aqua-blue', 'Aqua Blue Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.9</span>
+                                </div>
+                                <div class="review-count">(44 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slim Blue Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="22.png" alt="Slim Blue Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Slim Blue Card</h3>
+                        <p class="text-gray-600 mb-4">Sleek blue design with minimalist appeal</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('slim-blue', 'Slim Blue Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.8</span>
+                                </div>
+                                <div class="review-count">(36 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spicy Purple Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="33.png" alt="Spicy Purple Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Spicy Purple Card</h3>
+                        <p class="text-gray-600 mb-4">Vibrant purple design with unique character</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('spicy-purple', 'Spicy Purple Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">5.0</span>
+                                </div>
+                                <div class="review-count">(56 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Universal Light Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="44.png" alt="Universal Light Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Universal Light Card</h3>
+                        <p class="text-gray-600 mb-4">Clean light design suitable for everyone</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('universal-light', 'Universal Light Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.8</span>
+                                </div>
+                                <div class="review-count">(42 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deep Mango Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="55.png" alt="Deep Mango Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Deep Mango Card</h3>
+                        <p class="text-gray-600 mb-4">Warm mango design with tropical vibes</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('deep-mango', 'Deep Mango Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.9</span>
+                                </div>
+                                <div class="review-count">(34 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Steel Silver Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group glossy-shine">
+                    <div class="aspect-[3/2] overflow-hidden">
+                        <img src="66.png" alt="Steel Silver Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Steel Silver Card</h3>
+                        <p class="text-gray-600 mb-4">Metallic silver design with premium finish</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-green-600">₹299</span>
+                            <span class="text-sm text-gray-500">₹ 0.81/ per day</span>
+                        </div>
+                        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition" onclick="selectCard('steel-silver', 'Steel Silver Card')">
+                            Select This Card
+                        </button>
+                        <!-- Review Section -->
+                        <div class="review-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-700 font-semibold ml-2">4.9</span>
+                                </div>
+                                <div class="review-count">(48 reviews)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customization Form Modal -->
+    <div id="customizationModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-900">Customize Your <span id="selectedCardName"></span></h2>
+                        <button onclick="closeModal()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition">
+                            <i class="fas fa-times text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="cardCustomizationForm" class="p-6 space-y-6">
+                    <input type="hidden" id="selectedCard" name="selectedCard" value="">
+                    
+                    <div>
+                        <label for="cardHolderName" class="block text-gray-700 font-medium mb-2">Card Holder Name *</label>
+                        <input type="text" id="cardHolderName" name="cardHolderName" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition" placeholder="Enter full name (Required)">
+                        <p class="text-sm text-gray-500 mt-1">This field is mandatory and cannot be left blank</p>
+                    </div>
+
+                    <div>
+                        <label for="bloodGroup" class="block text-gray-700 font-medium mb-2">Blood Group</label>
+                        <select id="bloodGroup" name="bloodGroup" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition bg-white">
+                            <option value="">Select Blood Group (Optional)</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <p class="text-sm text-gray-500 mt-1">Leave blank for a white box to fill later with permanent marker</p>
+                    </div>
+
+                    <div>
+                        <label for="emergencyContact" class="block text-gray-700 font-medium mb-2">Emergency Contact Number *</label>
+                        <div class="flex gap-3">
+                            <select id="countryCode" name="countryCode" class="px-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition bg-white">
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+65">🇸🇬 +65</option>
+                                <option value="+60">🇲🇾 +60</option>
+                            </select>
+                            <input type="tel" id="emergencyContact" name="emergencyContact" required class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition" placeholder="Emergency contact number">
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">This number will receive WhatsApp alerts in emergencies</p>
+                    </div>
+
+                    <div>
+                        <label for="backSideNumber" class="block text-gray-700 font-medium mb-2">Number on Back Side</label>
+                        <input type="tel" id="backSideNumber" name="backSideNumber" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition" placeholder="Additional contact number (Optional)">
+                        <p class="text-sm text-gray-500 mt-1">Leave blank for a white box to fill later with permanent marker</p>
+                    </div>
+
+                    <div>
+                        <label for="medicalConditions" class="block text-gray-700 font-medium mb-2">Medical Conditions/Allergies</label>
+                        <textarea id="medicalConditions" name="medicalConditions" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition resize-none" placeholder="Any medical conditions, allergies, or important health information (Optional)"></textarea>
+                        <p class="text-sm text-gray-500 mt-1">Leave blank for a white box to fill later with permanent marker</p>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-info-circle text-blue-500 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-blue-900 mb-1">Blank Field Policy</h4>
+                                <p class="text-blue-800 text-sm">Any field left blank will appear as a white box on your card. You can fill these spaces later using any permanent marker or sketch pen.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="payNowBtn" class="w-full bg-green-600 text-white py-4 rounded-xl font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
+                        <i class="fas fa-bookmark"></i> Reserve Your Card Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectCard(cardType, cardName) {
+            document.getElementById('selectedCard').value = cardType;
+            document.getElementById('selectedCardName').textContent = cardName;
+            document.getElementById('customizationModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('customizationModal').classList.add('hidden');
+            document.getElementById('cardCustomizationForm').reset();
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // WhatsApp form submission
+            const payNowBtn = document.getElementById('payNowBtn');
+            if (payNowBtn) {
+                payNowBtn.addEventListener('click', () => {
+                    const cardHolderName = document.getElementById('cardHolderName').value.trim();
+                    const emergencyContact = document.getElementById('emergencyContact').value.trim();
+                    
+                    if (!cardHolderName) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Missing Information',
+                            text: 'Please enter the card holder name before proceeding.',
+                            confirmButtonColor: '#dc2626'
+                        });
+                        return;
+                    }
+                    
+                    if (!emergencyContact) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Missing Information', 
+                            text: 'Please enter the emergency contact number before proceeding.',
+                            confirmButtonColor: '#dc2626'
+                        });
+                        return;
+                    }
+                    
+                    const selectedCard = document.getElementById('selectedCard').value;
+                    const bloodGroup = document.getElementById('bloodGroup').value || 'Not specified';
+                    const countryCode = document.getElementById('countryCode').value;
+                    const backSideNumber = document.getElementById('backSideNumber').value || 'Not specified';
+                    const medicalConditions = document.getElementById('medicalConditions').value || 'Not specified';
+                    
+                    const message = `🚨 *EKAM CARE CARD ORDER* 🚨\n\n` +
+                        `📋 *Card Details:*\n` +
+                        `• Card Type: ${selectedCard.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Card\n` +
+                        `• Card Holder: ${cardHolderName}\n` +
+                        `• Blood Group: ${bloodGroup}\n\n` +
+                        `📞 *Contact Information:*\n` +
+                        `• Emergency Contact: ${countryCode} ${emergencyContact}\n` +
+                        `• Back Side Number: ${backSideNumber}\n\n` +
+                        `🏥 *Medical Info:*\n` +
+                        `• Conditions/Allergies: ${medicalConditions}\n\n` +
+                        `💰 *Price:* ₹299\n\n` +
+                        `Please process this order and contact me for payment details.`;
+                    
+                    const whatsappUrl = `https://wa.me/918087473770?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                    
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'WhatsApp Opened!',
+                            text: 'Please send the pre-filled message in WhatsApp to complete your order.',
+                            confirmButtonColor: '#dc2626',
+                            confirmButtonText: 'Got it!'
+                        }).then(() => {
+                            closeModal();
+                        });
+                    }, 1000);
+                });
+            }
+
+            // Close modal on outside click
+            const modal = document.getElementById('customizationModal');
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target.id === 'customizationModal') {
+                        closeModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
